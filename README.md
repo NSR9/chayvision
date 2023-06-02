@@ -33,7 +33,7 @@ model = Net()
 
 # Generate and print the model summary
 model_summary(model)
-
+```
 
 
 # Utils.py
@@ -99,7 +99,7 @@ for epoch in range(epochs):
 
 # Plot training and testing results
 train_loop.plot_graphs()
-
+```
 
 Please make sure you have PyTorch, torchvision, tqdm, and matplotlib installed in your Python environment.
 
