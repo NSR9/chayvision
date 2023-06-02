@@ -1,3 +1,27 @@
+# ChayVision
+
+ChayVision is a friendly Python library that assists you in creating your own image recognition models, based on Convolutional Neural Networks (CNNs). At its core, ChayVision leverages the power of PyTorch, a widely-used and robust machine learning framework.
+
+## Why ChayVision?
+
+Whether you are a seasoned expert or a beginner in machine learning, ChayVision is designed to make your journey easier. 
+
+Do you want to recognize handwritten digits or identify clothing items in images? With ChayVision, you can do this with just a few lines of code! Our library takes care of all the tricky bits like data processing, model building, training, and testing.
+
+ChayVision also provides visualization tools to help you understand your data and the learning process of your model. This allows you to peek into the fascinating world of machine learning, offering you insights into what your model is learning.
+
+Moreover, ChayVision makes efficient use of your hardware. If your system supports GPU computation, the library will take advantage of it, resulting in a faster learning process.
+
+## Getting Started
+
+Getting started with ChayVision is easy. Once you install the library, you can use its tools to download a dataset, set up a model, train it, test its performance, and visualize the results.
+
+Whether you are an experienced researcher looking to prototype models quickly or a beginner looking for a comfortable introduction to machine learning, ChayVision has something for you.
+
+This is a base version of this library with only 2 files - Model.py and Utils.py. Will be under development please check regularly.
+
+
+
 # Model.py
 
 This Python script contains the definition of a Convolutional Neural Network (CNN) model in PyTorch and a function to generate a summary of the model.
@@ -112,3 +136,11 @@ Please make sure you have PyTorch, torchvision, tqdm, and matplotlib installed i
 5. Torch Summary
 
 This code was written in Python 3 and uses PyTorch for model definition, training, and testing. Tqdm is used for displaying progress bars, and matplotlib is used for plotting the training and test metrics.
+
+
+
+## License
+
+MIT
+
+Please note that this is a very high-level introduction. For specific details and instructions, please refer to the documentation and example scripts provided with the library.
