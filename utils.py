@@ -190,3 +190,6 @@ def check_cuda():
     is_cuda = torch.cuda.is_available()
     print("CUDA Available?", is_cuda)
     return is_cuda
+
+def GetCorrectPredCount(pPrediction, pLabels):
+           return pPrediction.argmax(dim=1).eq(pLabels).sum().item()
