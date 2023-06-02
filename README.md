@@ -1,5 +1,40 @@
 # Model.py
 
+This Python script contains the definition of a Convolutional Neural Network (CNN) model in PyTorch and a function to generate a summary of the model.
+
+## Components
+
+### Net Class
+
+The `Net` class defines the structure of the neural network model. This class is a subclass of PyTorch's `nn.Module`.
+
+The constructor (`__init__`) of the `Net` class defines the layers of the model:
+- Four convolutional layers (`self.conv1`, `self.conv2`, `self.conv3`, `self.conv4`) with progressively increasing output channels.
+- Two fully connected layers (`self.fc1`, `self.fc2`).
+
+The `forward` method defines the forward pass of the network. The layers are applied to the input tensor `x` in order:
+- The convolutional layers are applied with a ReLU activation function.
+- Max pooling is applied after the second and fourth convolutional layers.
+- After the last convolutional layer, the tensor is flattened.
+- The fully connected layers are applied with a ReLU activation function after the first fully connected layer.
+- The final layer's output is passed through a logarithmic softmax function to generate probabilities for each class.
+
+### model_summary Function
+
+The `model_summary` function generates and prints a summary of the model architecture. This function uses the `summary` function from the `torchsummary` library to provide a layer-by-layer description of the model, including the input and output shapes of each layer and the number of parameters.
+
+## Usage
+
+To use this script, you need to instantiate the `Net` class and call `model_summary` function. For example:
+
+```python
+# Instantiate the model
+model = Net()
+
+# Generate and print the model summary
+model_summary(model)
+
+
 
 # Utils.py
 
