@@ -84,6 +84,107 @@ class DataViewer():
             plt.xticks([])
             plt.yticks([])
 
+
+class TrainLoop():
+    def __init__(self):
+        # Initialize lists to store training and test metrics
+        self.train_acc = []  # Training accuracy
+        self.train_losses = []  # Training loss
+        self.test_acc = []  # Test accuracy
+        self.test_losses = []  # Test loss
+
+    def train_model(self, model, device, train_loader, optimizer):
+        """
+        Method for training the model.
+
+        Args:
+            model (nn.Module): The model to be trained.
+            device (torch.device): The device to be used for training (e.g., 'cuda' or 'cpu').
+            train_loader (DataLoader): The data loader for training data.
+            optimizer (torch.optim.Optimizer): The optimizer for updating the model's parameters.
+        """
+        model.train()  # Set the model in training mode
+        pbar = tqdm(train_loader)  # Create a progress bar for training iterations
+
+        train_loss = 0
+        correct = 0
+        processed = 0
+
+        for batch_idx, (data, target) in enumerate(pbar):
+            data, target = data.to(device), target.to(device)
+            optimizer.zero_grad()
+
+            # Predict
+            pred = model(data)
+
+            # Calculate loss
+            loss = F.nll_loss(pred, target)
+            train_loss += loss.item()
+
+            # Backpropagation
+            loss.backward()
+            optimizer.step()
+
+            correct += GetCorrectPredCount(pred, target)
+            processed += len(data)
+
+            # Update the progress bar with training metrics
+            pbar.set_description(desc=f'Train: Loss={loss.item():0.4f} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
+
+        # Store the training metrics
+        self.train_acc.append(100 * correct / processed)
+        self.train_losses.append(train_loss / len(train_loader))
+
+    def test_model(self, model, device, test_loader):
+        """
+        Method for testing the model.
+
+        Args:
+            model (nn.Module): The model to be tested.
+            device (torch.device): The device to be used for testing (e.g., 'cuda' or 'cpu').
+            test_loader (DataLoader): The data loader for test data.
+        """
+        model.eval()  # Set the model in evaluation mode
+
+        test_loss = 0
+        correct = 0
+
+        with torch.no_grad():
+            for batch_idx, (data, target) in enumerate(test_loader):
+                data, target = data.to(device), target.to(device)
+
+                output = model(data)
+                test_loss += F.nll_loss(output, target, reduction='sum').item()  # Sum up batch loss
+
+                correct += GetCorrectPredCount(output, target)
+
+        test_loss /= len(test_loader.dataset)
+        self.test_acc.append(100. * correct / len(test_loader.dataset))
+        self.test_losses.append(test_loss)
+
+        # Print the test metrics
+        print('Test set: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
+            test_loss, correct, len(test_loader.dataset),
+            100. * correct / len(test_loader.dataset)))
+
+    def plot_graphs(self):
+        """
+        Method for plotting the training and test metrics.
+        """
+        # Plot the training and test metrics
+        fig, axs = plt.subplots(2, 2, figsize=(15, 10))
+        axs[0, 0].plot(self.train_losses)
+        axs[0, 0].set_title("Training Loss")
+        axs[1, 0].plot(self.train_acc)
+        axs[1, 0].set_title("Training Accuracy")
+        axs[0, 1].plot(self.test_losses)
+        axs[0, 1].set_title("Test Loss")
+        axs[1, 1].plot(self.test_acc)
+        axs[1, 1].set_title("Test Accuracy")
+
+
+
+
 def check_cuda():
     # Check if CUDA is available
     is_cuda = torch.cuda.is_available()
