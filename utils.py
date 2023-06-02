@@ -193,3 +193,7 @@ def check_cuda():
 
 def GetCorrectPredCount(pPrediction, pLabels):
            return pPrediction.argmax(dim=1).eq(pLabels).sum().item()
+
+def get_device(is_cuda):
+            device = torch.device("cuda" if is_cuda else "cpu")
+            return device    
